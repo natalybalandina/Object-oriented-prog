@@ -1,8 +1,8 @@
 import pytest
 
-from main import Category, Product
-
 # Тесты
+
+
 class Product:
     total_products = 0  # Класс-атрибут для подсчета общего количества продуктов
 
