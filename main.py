@@ -1,59 +1,5 @@
-class Product:
-    def __init__(self, name: str, description: str, price: float, quantity: int):
-        """
-        Инициализация продукта.
-        name: Название продукта (строка).
-        description: Описание продукта (строка).
-        price: Цена продукта (число с плавающей точкой, может содержать копейки).
-        quantity: Количество продукта (целое число, измеряемое в штуках).
-        """
-        self.name = name  # Название продукта
-        self.description = description  # Описание продукта
-        self.price = price  # Цена продукта
-        self.quantity = quantity  # Количество продукта
-
-    def __str__(self):
-        return (
-            f"Product(name={self.name}, description={self.description}, "
-            f"price={self.price}, quantity={self.quantity})"
-        )
-
-
-class Category:
-    # Атрибуты класса для хранения общего количества категорий и товаров
-    total_categories = 0
-    total_products = 0
-
-    def __init__(self, name: str, description: str):
-        """
-        Инициализация категории.
-        name: Название категории (строка).
-        description: Описание категории (строка).
-        """
-        self.name = name  # Название категории
-        self.description = description  # Описание категории
-        self.products = []  # Список товаров категории (список объектов класса Product)
-
-        # Увеличиваем общее количество категорий
-        Category.total_categories += 1
-
-    def add_product(self, product: Product):
-        """
-        Добавление продукта в категорию.
-        product: Объект класса Product для добавления в категорию.
-        """
-        self.products.append(product)  # Добавление продукта в список
-        # Увеличиваем общее количество товаров
-        Category.total_products += 1
-
-    @classmethod
-    def get_total_categories(cls):
-        return cls.total_categories
-
-    @classmethod
-    def get_total_products(cls):
-        return cls.total_products
-
+from src.category import Category
+from src.product import Product
 
 if __name__ == "__main__":
     product1 = Product(
@@ -62,20 +8,11 @@ if __name__ == "__main__":
     product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
     product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
 
-    print(product1.name)
-    print(product1.description)
-    print(product1.price)
-    print(product1.quantity)
-
-    print(product2.name)
-    print(product2.description)
-    print(product2.price)
-    print(product2.quantity)
-
-    print(product3.name)
-    print(product3.description)
-    print(product3.price)
-    print(product3.quantity)
+    for product in [product1, product2, product3]:
+        print(product.name)
+        print(product.description)
+        print(product.price)
+        print(product.quantity)
 
     category1 = Category(
         "Смартфоны",
