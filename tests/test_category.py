@@ -39,7 +39,9 @@ def test_category_count() -> None:
     initial_count = Category.category_count
     category = Category("Test Category", "Test Description")
     assert Category.category_count == initial_count + 1
-    return category
+    # Дополнительные проверки для объекта category
+    assert category.name == "Test Category"
+    assert category.description == "Test Description"
 
 
 def test_product_count() -> None:

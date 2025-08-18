@@ -47,3 +47,8 @@ class Category:
                 for p in self._products
             ]
         )
+
+    def __str__(self) -> str:
+        """Возвращает строковое представление категории."""
+        product_list = self.products if self._products else "Нет продуктов в категории."
+        return f"Категория: {self.name}\nОписание: {self.description}\nПродукты:\n{product_list}"

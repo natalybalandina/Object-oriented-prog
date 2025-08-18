@@ -32,10 +32,7 @@ class Product:
     def price(self, new_price: float) -> None:
         """Сеттер для атрибута 'цена'."""
         if new_price <= 0:
-            print(
-                "Ошибка: цена не должна быть нулевой или отрицательной. Изменение цены отменено."
-            )
-            return
+            raise ValueError("Цена не должна быть нулевой или отрицательной.")
 
         if new_price < self.__price:
             confirmation = input(
@@ -70,7 +67,11 @@ class Product:
         for existing_product in existing_products:
             if existing_product.name == name:
                 existing_product.quantity += quantity
-                existing_product.price = max(existing_product.price, price)
+                existing_product.price = (
+                    max(existing_product.price, price)
+                    if price > 0
+                    else existing_product.price
+                )
                 print(
                     f"Товар '{name}' уже существует. Обновлено количество до {existing_product.quantity} и цена до {existing_product.price}."
                 )
@@ -83,3 +84,9 @@ class Product:
         print(f"Создан новый продукт: {new_product.name}")
 
         return new_product
+
+    def __str__(self):
+        """Возвращает строковое представление продукта."""
+        return (
+            f"{self.name} - {self.description}: {self.price} руб., {self.quantity} шт."
+        )
