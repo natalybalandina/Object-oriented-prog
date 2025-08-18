@@ -46,3 +46,11 @@ def test_product_count() -> None:
     product = Product("Test Product", "Test Description", 100.0, 10)
     category.add_product(product)
     assert Category.product_count == initial_count + 1
+
+
+def test_add_invalid_product() -> None:
+    """Тест добавления некорректного продукта."""
+    category = Category("Test Category", "Test Description")
+    with pytest.raises(ValueError):
+        invalid_product = Product("Invalid Product", "Invalid Description", -100.0, 10)  # Отрицательная цена
+        category.add_product(invalid_product)

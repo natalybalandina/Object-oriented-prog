@@ -2,28 +2,38 @@ class Product:
     """Класс для представления продукта."""
 
     def __init__(self, name: str, description: str, price: float, quantity: int) -> None:
-        if price < 0:
-            raise ValueError("Цена товара не может быть отрицательной")
+        """
+        Инициализация объекта Product.
+
+        name: Название продукта.
+        description: Описание продукта.
+        price: Цена продукта.
+        quantity: Количество продукта в наличии.
+        ValueError: Если цена или количество отрицательные.
+        """
+        if price <= 0:
+            raise ValueError("Цена товара не может быть нулевой или отрицательной")
         if quantity < 0:
             raise ValueError("Количество товара не может быть отрицательным")
 
         self.name = name
         self.description = description
-        self.__price = price  # Приватный атрибут
-        self.__quantity = quantity  # Приватный атрибут
+        self.__price = price  # Приватный атрибут цены
+        self.__quantity = quantity  # Приватный атрибут количества
 
     @property
     def price(self) -> float:
+        """Геттер для атрибута 'цена'."""
         return self.__price
 
     @price.setter
     def price(self, new_price: float) -> None:
+        """Сеттер для атрибута 'цена'."""
         if new_price <= 0:
-            print("Цена не должна быть нулевой или отрицательной")
-            return
+            raise ValueError("Цена не должна быть нулевой или отрицательной")
 
         if new_price < self.__price:
-            confirmation = input(f"Вы уверены, что хотите понизить цену с {self.__price} до {new_price}? (Y/n): ")
+            confirmation = input(f"Вы уверены, что хотите понизить цену с {self.__price} до {new_price}? (y/n): ")
             if confirmation.lower() != 'y':
                 print("Изменение цены отменено.")
                 return
@@ -33,16 +43,15 @@ class Product:
 
     @property
     def quantity(self) -> int:
+        """Геттер для атрибута 'количество'."""
         return self.__quantity
 
     @quantity.setter
     def quantity(self, new_quantity: int) -> None:
+        """Сеттер для атрибута 'количество'."""
         if new_quantity < 0:
-            print("Количество не должно быть отрицательным")
-            return
-
+            raise ValueError("Количество не должно быть отрицательным")
         self.__quantity = new_quantity
-        print(f"Количество успешно изменено на {self.__quantity}")
 
     @classmethod
     def new_product(cls, product_data: dict, existing_products: list) -> 'Product':
