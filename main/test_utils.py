@@ -3,7 +3,7 @@ from unittest.mock import mock_open, patch
 
 import pytest
 
-from src.utils import create_objects_from_json, read_json
+from data.utils import create_objects_from_json, read_json
 
 # Данные для теста
 mock_json_data = """

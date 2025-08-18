@@ -44,7 +44,7 @@ def create_objects_from_json(data: list) -> list:
 
 if __name__ == "__main__":
     # Читаем сырые данные из JSON файла
-    raw_data = read_json("../data/products.json")
+    raw_data = read_json("products.json")
 
     # Создаем объекты категорий и продуктов из считанных данных
     categories_data = create_objects_from_json(raw_data)
