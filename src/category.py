@@ -1,20 +1,22 @@
-from src.product import Product
 from typing import List
+
+from src.product import Product
 
 
 class Category:
     """Класс для представления категории продуктов."""
+
     category_count = 0  # Количество категорий
     product_count = 0  # Количество всех товаров
 
     def __init__(self, name: str, description: str) -> None:
         """
-                Инициализация объекта Category.
+        Инициализация объекта Category.
 
-                name: Название категории.
-                description: Описание категории.
-                products: Список продуктов в категории.
-                """
+        name: Название категории.
+        description: Описание категории.
+        products: Список продуктов в категории.
+        """
         self.name = name
         self.description = description
         self._products: List[Product] = []  # Приватный список продуктов
@@ -27,7 +29,9 @@ class Category:
         product: Объект класса Product.
         """
         if not isinstance(product, Product):
-            raise TypeError("Можно добавлять только объекты класса Product или его подклассов.")
+            raise TypeError(
+                "Можно добавлять только объекты класса Product или его подклассов."
+            )
         self._products.append(product)
         Category.product_count += 1
 
@@ -38,5 +42,8 @@ class Category:
         Возвращает строку с описанием продуктов.
         """
         return "\n".join(
-            [f"{p.name}, {p.price} руб. Остаток: {p.quantity} шт." for p in self._products]
+            [
+                f"{p.name}, {p.price} руб. Остаток: {p.quantity} шт."
+                for p in self._products
+            ]
         )

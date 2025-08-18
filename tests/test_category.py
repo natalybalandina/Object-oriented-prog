@@ -28,7 +28,9 @@ def test_category_products_property() -> None:
     product2 = Product("Product 2", "Description 2", 200.0, 5)
     category.add_product(product1)
     category.add_product(product2)
-    expected_output = "Product 1, 100.0 руб. Остаток: 10 шт.\nProduct 2, 200.0 руб. Остаток: 5 шт."
+    expected_output = (
+        "Product 1, 100.0 руб. Остаток: 10 шт.\nProduct 2, 200.0 руб. Остаток: 5 шт."
+    )
     assert category.products == expected_output
 
 
@@ -37,6 +39,7 @@ def test_category_count() -> None:
     initial_count = Category.category_count
     category = Category("Test Category", "Test Description")
     assert Category.category_count == initial_count + 1
+    return category
 
 
 def test_product_count() -> None:
@@ -52,5 +55,7 @@ def test_add_invalid_product() -> None:
     """Тест добавления некорректного продукта."""
     category = Category("Test Category", "Test Description")
     with pytest.raises(ValueError):
-        invalid_product = Product("Invalid Product", "Invalid Description", -100.0, 10)  # Отрицательная цена
+        invalid_product = Product(
+            "Invalid Product", "Invalid Description", -100.0, 10
+        )  # Отрицательная цена
         category.add_product(invalid_product)

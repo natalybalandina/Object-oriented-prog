@@ -1,11 +1,18 @@
 import pytest
+
 from src.product import Product
+
 
 class TestProduct:
     @pytest.fixture
     def product(self):
         """Создаем экземпляр продукта для тестирования."""
-        return Product(name="Test Product", description="This is a test product.", price=100.0, quantity=10)
+        return Product(
+            name="Test Product",
+            description="This is a test product.",
+            price=100.0,
+            quantity=10,
+        )
 
     def test_initialization(self, product):
         """Тестируем правильную инициализацию объекта Product."""
