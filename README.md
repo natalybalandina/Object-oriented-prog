@@ -150,4 +150,28 @@ tests\test_utils.py ..                                      [100%]
 ======================= 2 passed in 0.05s ======================== 
 ```
 
+```
+ pytest --cov
+```
+
+```
+============================== tests coverage ==============================
+_____________ coverage: platform win32, python 3.13.3-final-0 ______________
+
+Name                           Stmts   Miss  Cover
+--------------------------------------------------
+src\__init__.py                    0      0   100%
+src\category.py                   21      3    86%
+src\class_iterator.py             14      0   100%
+src\product.py                    54     14    74%
+tests\__init__.py                  0      0   100%
+tests\test_category.py            39      1    97%
+tests\test_class_iterator.py      29      0   100%
+tests\test_product.py             31      0   100%
+--------------------------------------------------
+TOTAL                            188     18    90%
+============================ 14 passed in 0.11s ============================
+```
+
+
 Таким образом, код покрыт белее чем на 75%.
