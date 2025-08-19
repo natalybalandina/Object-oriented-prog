@@ -12,7 +12,7 @@ E-commerce  — электронная торговля, или электрон
 ***Домашняя работа по теме "14.1 Введение в ООП"***
 
 *Задание*
-Созданы классы 'Product' и 'Category'. 
+Созданы классы 'Product' и 'Category' в отдельных модулях. 
 Для класса 'Product' определены следующие свойства: название (name), описание (description), цена (price), количество в наличии (quantity).
 Для класса 'Category' определены следующие свойства: название (name), описание (description), список товаров категории (products).
 Также добавлены атрибуты, в которых хранится информация о количестве категорий и товаров. 
@@ -21,14 +21,13 @@ E-commerce  — электронная торговля, или электрон
 Также для класса 'Category' добавлены два атрибута класса. Доступ к этим атрибутам есть у каждого объекта класса, и в них храниться общая информация для всех объектов. Эти атрибуты хранят в себе количество 
 категорий и количество товаров. 
 Атрибуты класса заполняются автоматически при инициализации нового объекта.
-Код реализован в модуле 'main.py'.
+Код реализован в модулях 'category.py' и 'product.py'.
 
-Написаны тесты для классов, которые проверяют: корректность инициализации объектов класса 'Category', корректность инициализации объектов класса 'Product', подсчет количества продуктов,
-подсчет количества категорий. 
-Код реализован в модуле 'test_main.py'.
+Написаны тесты для классов, которые проверяют: корректность инициализации объектов класса 'Category', корректность инициализации объектов класса 'Product', подсчет количества продуктов, подсчет количества категорий. 
+Код реализован в модуле 'test_product_category.py'.
 
 В модуле 'utils.py' реализована функция работы с файлом 'json'.
-
+В модуле 'test_utils.py' написан код для тестирования.
 
 
 
@@ -115,35 +114,64 @@ python utils.py
  ***Результаты тестирования***
  
 Тестирование запускается командой 
+1.
 ```
- pytest test_main.py
+ pytest test_product_category.py
 ```
 
 ```
-====================== test session starts ======================= 
-platform win32 -- Python 3.13.3, pytest-8.4.1, pluggy-1.6.0        
-rootdir: C:\Users\...\PythonProject_OOP      
+====================== test session starts =======================
+platform win32 -- Python 3.13.3, pytest-8.4.1, pluggy-1.6.0
+rootdir: C:\...\PythonProject_OOP
 configfile: pyproject.toml
 plugins: anyio-4.10.0, cov-6.2.1
-collected 4 items                                                  
+collected 4 items                                                 
 
-test_main.py ....                                           [100%] 
+tests\test_product_category.py ....                         [100%] 
 
-======================= 4 passed in 0.09s ========================
-```
-
-При запуске выполнения тестов кнопкой  'Run" выдается результат
-
-```
-============================ test session starts =============================
-collecting ... collected 4 items
-
-test_main.py::TestProduct::test_product_creation PASSED                  [ 25%]
-test_main.py::TestProduct::test_get_total_products PASSED                [ 50%]
-test_main.py::TestCategory::test_category_creation PASSED                [ 75%]
-test_main.py::TestCategory::test_get_total_categories PASSED             [100%]
-
-============================== 4 passed in 0.05s ==============================
+======================= 4 passed in 0.03s ========================
 ```
  
+2.
+```
+ pytest test_utils.py
+```
+
+```
+====================== test session starts =======================
+platform win32 -- Python 3.13.3, pytest-8.4.1, pluggy-1.6.0
+rootdir: C:\...\PythonProject_OOP
+configfile: pyproject.toml
+plugins: anyio-4.10.0, cov-6.2.1
+collected 2 items                                                 
+
+tests\test_utils.py ..                                      [100%] 
+
+======================= 2 passed in 0.05s ======================== 
+```
+
+```
+ pytest --cov
+```
+
+```
+============================== tests coverage ==============================
+_____________ coverage: platform win32, python 3.13.3-final-0 ______________
+
+Name                           Stmts   Miss  Cover
+--------------------------------------------------
+src\__init__.py                    0      0   100%
+src\category.py                   21      3    86%
+src\class_iterator.py             14      0   100%
+src\product.py                    54     14    74%
+tests\__init__.py                  0      0   100%
+tests\test_category.py            39      1    97%
+tests\test_class_iterator.py      29      0   100%
+tests\test_product.py             31      0   100%
+--------------------------------------------------
+TOTAL                            188     18    90%
+============================ 14 passed in 0.11s ============================
+```
+
+
 Таким образом, код покрыт белее чем на 75%.
