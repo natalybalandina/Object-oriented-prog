@@ -90,3 +90,9 @@ class Product:
         return (
             f"{self.name} - {self.description}: {self.price} руб., {self.quantity} шт."
         )
+
+    def __add__(self, other: "Product") -> float:
+        """Магический метод сложения двух продуктов."""
+        if not isinstance(other, Product):
+            raise TypeError("Можно складывать только объекты класса Product.")
+        return (self.price * self.quantity) + (other.price * other.quantity)
