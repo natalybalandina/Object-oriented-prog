@@ -1,6 +1,6 @@
-from typing import List
+from typing import List, Optional
 
-from src.product import Product
+from .product import Product
 
 
 class Category:
@@ -9,28 +9,34 @@ class Category:
     category_count = 0  # Количество категорий
     product_count = 0  # Количество всех товаров
 
-    def __init__(self, name: str, description: str) -> None:
+    def __init__(
+        self, name: str, description: str, products: Optional[List[Product]] = None
+    ) -> None:
         """
         Инициализация объекта Category.
 
-        name: Название категории.
-        description: Описание категории.
-        products: Список продуктов в категории.
+        :param name: Название категории.
+        :param description: Описание категории.
+        :param products: Список продуктов в категории.
         """
         self.name = name
         self.description = description
-        self._products: List[Product] = []  # Приватный список продуктов
+        self._products: List[Product] = (
+            products if products is not None else []
+        )  # Приватный список продуктов
         # Увеличиваем статические атрибуты класса
         Category.category_count += 1
+        # Увеличиваем счетчик продуктов на количество переданных продуктов
+        Category.product_count += len(self._products)
 
-    def add_product(self, product: Product) -> None:
+    def add_product(self, product: "Product") -> None:
         """
         Метод для добавления продукта в категорию.
-        product: Объект класса Product.
+        :param product: Объект класса Product.
         """
         if not isinstance(product, Product):
             raise TypeError(
-                "Можно добавлять только объекты класса Product или его подклассов."
+                "Можно добавлять только объекты класса Product или его наследников."
             )
         self._products.append(product)
         Category.product_count += 1
@@ -41,14 +47,12 @@ class Category:
         Геттер для получения списка продуктов.
         Возвращает строку с описанием продуктов.
         """
-        return "\n".join(
-            [
-                f"{p.name}, {p.price} руб. Остаток: {p.quantity} шт."
-                for p in self._products
-            ]
-        )
+        return "\n".join([str(p) for p in self._products])
 
     def __str__(self) -> str:
-        """Возвращает строковое представление категории."""
-        product_list = self.products if self._products else "Нет продуктов в категории."
-        return f"Категория: {self.name}\nОписание: {self.description}\nПродукты:\n{product_list}"
+        """Строковое представление объекта Category."""
+        total_quantity = sum(p.quantity for p in self._products)
+        # Добавляем условие для случая, если нет продуктов в категории
+        if not self._products:
+            return f"{self.name}, количество продуктов: 0 шт."
+        return f"{self.name}, количество продуктов: {total_quantity} шт."
