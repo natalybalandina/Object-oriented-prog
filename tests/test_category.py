@@ -19,6 +19,9 @@ def test_category_add_product() -> None:
     category.add_product(product)
     assert len(category._products) == 1
     assert category.product_count == 1
+    assert (
+        category._products[0] == product
+    )  # Проверка на корректность добавленного продукта
 
 
 def test_category_products_property() -> None:
@@ -36,11 +39,11 @@ def test_category_products_property() -> None:
 
 def test_product_count() -> None:
     """Тест счетчика продуктов."""
-    initial_count = Category.product_count
     category = Category("Test Category", "Test Description")
+    initial_count = category.product_count
     product = Product("Test Product", "Test Description", 100.0, 10)
     category.add_product(product)
-    assert Category.product_count == initial_count + 1
+    assert category.product_count == initial_count + 1
 
 
 def test_empty_category() -> None:
@@ -50,7 +53,7 @@ def test_empty_category() -> None:
 
 
 def test_non_empty_category() -> None:
-    """Тест создание несколько продуктов и категорий"""
+    """Тест создания нескольких продуктов и категорий"""
     product1 = Product("Product A", "Description", 100.0, 10)
     product2 = Product("Product B", "Description", 200.0, 5)
     product3 = Product("Product C", "Description", 300.0, 7)
@@ -109,7 +112,7 @@ def test_add_invalid_product_to_category() -> None:
 
 
 def test_category_str_representation() -> None:
-    """Тест на строковое представление категории"""
+    """Тест на строковое представление категории."""
     category = Category("Смартфоны", "Высокотехнологичные смартфоны")
     smartphone = Smartphone(
         name="iPhone 15",
@@ -122,4 +125,5 @@ def test_category_str_representation() -> None:
         color="Gray space",
     )
     category.add_product(smartphone)
+
     assert str(category) == "Смартфоны, количество продуктов: 8 шт."

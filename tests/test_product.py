@@ -54,34 +54,32 @@ def test_new_product_classmethod() -> None:
 
 
 def test_product_creation() -> None:
-    """Проверяем строковое представление продукта"""
+    """Проверяем строковое представление продукта."""
     product = Product("Test Product", "Description", 100.0, 10)
     assert str(product) == "Test Product, 100.0 руб. Остаток: 10 шт."
 
 
 def test_product_addition() -> None:
-    """Проверяем строковое представление продукта"""
+    """Проверяем сложение двух продуктов."""
     product1 = Product("Product A", "Description", 100.0, 10)
     product2 = Product("Product B", "Description", 200.0, 5)
     assert product1 + product2 == 2000.0
 
 
 def test_invalid_price() -> None:
-    """Проверяем, что при отрицательной цене выбрасывается исключение ValueError"""
+    """Проверяем, что при отрицательной цене выбрасывается исключение ValueError."""
     with pytest.raises(ValueError):
         Product("Invalid Product", "Description", -100.0, 10)
 
 
 def test_invalid_quantity() -> None:
-    """Проверяем, что при отрицательном количестве выбрасывается исключение ValueError"""
+    """Проверяем, что при отрицательном количестве выбрасывается исключение ValueError."""
     with pytest.raises(ValueError):
         Product("Invalid Product", "Description", 100.0, -10)
 
 
 def test_smartphone_creation() -> None:
-    """
-    Тестирует создание объекта класса Smartphone и проверяет корректность его атрибутов.
-    """
+    """Тестирует создание объекта класса Smartphone и проверяет корректность его атрибутов."""
     smartphone = Smartphone(
         name="Samsung Galaxy S23",
         description="256GB, Черный",
