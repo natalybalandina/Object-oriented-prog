@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from .product import Product
+from src.product import Product
 
 
 class Category:
@@ -29,9 +29,10 @@ class Category:
         # Увеличиваем счетчик продуктов на количество переданных продуктов
         Category.product_count += len(self._products)
 
-    def add_product(self, product: "Product") -> None:
+    def add_product(self, product: Product) -> None:
         """
         Метод для добавления продукта в категорию.
+
         :param product: Объект класса Product.
         """
         if not isinstance(product, Product):
@@ -45,6 +46,7 @@ class Category:
     def products(self) -> str:
         """
         Геттер для получения списка продуктов.
+
         Возвращает строку с описанием продуктов.
         """
         return "\n".join([str(p) for p in self._products])

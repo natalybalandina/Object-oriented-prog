@@ -1,7 +1,8 @@
 from src.category import Category
 from src.product import LawnGrass, Smartphone
 
-if __name__ == "__main__":
+
+if __name__ == "__main__":  # Исправлено на правильную проверку
     smartphone1 = Smartphone(
         "Samsung Galaxy S23 Ultra",
         "256GB, Серый цвет, 200MP камера",
@@ -26,32 +27,16 @@ if __name__ == "__main__":
         "Синий",
     )
 
-    print(smartphone1.name)
-    print(smartphone1.description)
-    print(smartphone1.price)
-    print(smartphone1.quantity)
-    print(smartphone1.efficiency)
-    print(smartphone1.model)
-    print(smartphone1.memory)
-    print(smartphone1.color)
-
-    print(smartphone2.name)
-    print(smartphone2.description)
-    print(smartphone2.price)
-    print(smartphone2.quantity)
-    print(smartphone2.efficiency)
-    print(smartphone2.model)
-    print(smartphone2.memory)
-    print(smartphone2.color)
-
-    print(smartphone3.name)
-    print(smartphone3.description)
-    print(smartphone3.price)
-    print(smartphone3.quantity)
-    print(smartphone3.efficiency)
-    print(smartphone3.model)
-    print(smartphone3.memory)
-    print(smartphone3.color)
+    # Печать информации о смартфонах
+    for smartphone in [smartphone1, smartphone2, smartphone3]:
+        print(smartphone.name)
+        print(smartphone.description)
+        print(smartphone.price)
+        print(smartphone.quantity)
+        print(smartphone.efficiency)
+        print(smartphone.model)
+        print(smartphone.memory)
+        print(smartphone.color)
 
     grass1 = LawnGrass(
         "Газонная трава",
@@ -72,22 +57,17 @@ if __name__ == "__main__":
         "Темно-зеленый",
     )
 
-    print(grass1.name)
-    print(grass1.description)
-    print(grass1.price)
-    print(grass1.quantity)
-    print(grass1.country)
-    print(grass1.germination_period)
-    print(grass1.color)
+    # Печать информации о газонной траве
+    for grass in [grass1, grass2]:
+        print(grass.name)
+        print(grass.description)
+        print(grass.price)
+        print(grass.quantity)
+        print(grass.country)
+        print(grass.germination_period)
+        print(grass.color)
 
-    print(grass2.name)
-    print(grass2.description)
-    print(grass2.price)
-    print(grass2.quantity)
-    print(grass2.country)
-    print(grass2.germination_period)
-    print(grass2.color)
-
+    # Сложение продуктов
     smartphone_sum = smartphone1 + smartphone2
     print(smartphone_sum)
 
@@ -112,7 +92,7 @@ if __name__ == "__main__":
 
     print(category_smartphones.products)
 
-    print(Category.product_count)
+    print(category_smartphones.product_count)  # Исправлено на использование экземпляра
 
     try:
         category_smartphones.add_product("Not a product")
