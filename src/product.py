@@ -1,4 +1,8 @@
-class Product:
+from src.base_product import BaseProduct
+from src.class_mixin import LoggingMixin
+
+
+class Product(LoggingMixin, BaseProduct):
     """Класс для представления продукта."""
 
     def __init__(
@@ -18,11 +22,31 @@ class Product:
             raise ValueError("Цена товара не может быть отрицательной")
         if quantity < 0:
             raise ValueError("Количество товара не может быть отрицательным")
-
-        self.name = name
-        self.description = description
+        super().__init__(
+            name=name, description=description, price=price, quantity=quantity
+        )
         self.__price = price  # Приватный атрибут цены
-        self.quantity = quantity
+
+    def __repr__(self) -> str:
+        # Используем имя с подчеркиванием для доступа к защищенному атрибуту
+        return (
+            f"Product(name={self.name!r}, description={self.description!r}, "
+            f"price={self.__price}, quantity={self.quantity})"
+        )
+
+    @classmethod
+    def new_product(cls, product_data: dict) -> "Product":
+        """
+        Класс-метод для создания нового продукта из словаря.
+        :param product_data: Словарь с данными о продукте.
+        :return: Объект класса Product.
+        """
+        return cls(
+            name=product_data["name"],
+            description=product_data["description"],
+            price=product_data["price"],
+            quantity=product_data["quantity"],
+        )
 
     @property
     def price(self) -> float:
@@ -37,26 +61,15 @@ class Product:
             return
         self.__price = new_price
 
-    @classmethod
-    def new_product(cls, product_data: dict) -> "Product":
-        """
-        Класс-метод для создания нового продукта из словаря.
-
-        :param product_data: Словарь с данными о продукте.
-        :return: Объект класса Product.
-        """
-        return cls(
-            name=product_data["name"],
-            description=product_data["description"],
-            price=product_data["price"],
-            quantity=product_data["quantity"],
-        )
+    def get_info(self) -> str:
+        """Метод для получения информации о продукте."""
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
     def __str__(self) -> str:
         """Строковое представление объекта Product."""
-        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+        return self.get_info()
 
-    def __add__(self, other: "Product") -> float:
+    def __add__(self, other: "BaseProduct") -> float:
         """Магический метод сложения двух продуктов."""
         if not isinstance(other, Product):
             raise TypeError("Можно складывать только объекты класса Product.")
@@ -65,7 +78,7 @@ class Product:
         return (self.price * self.quantity) + (other.price * other.quantity)
 
 
-class Smartphone(Product):
+class Smartphone(Product, LoggingMixin):
     """Класс для представления смартфона."""
 
     def __init__(
@@ -85,9 +98,14 @@ class Smartphone(Product):
         self.memory = memory
         self.color = color
 
+    def get_info(self) -> str:
+        base_info = super().get_info()
+        return f"{base_info}, Производительность: {self.efficiency}, Модель: {self.model},\
+         Объем памяти: {self.memory} ГБ, Цвет: {self.color}"
+
 
 class LawnGrass(Product):
-    """Класс для представления смартфона."""
+    """Класс для представления газонной травы."""
 
     def __init__(
         self,
@@ -103,3 +121,7 @@ class LawnGrass(Product):
         self.country = country
         self.germination_period = germination_period
         self.color = color
+
+    def get_info(self) -> str:
+        base_info = super().get_info()
+        return f"{base_info}, Страна: {self.country}, Срок прорастания: {self.germination_period}, Цвет: {self.color}"

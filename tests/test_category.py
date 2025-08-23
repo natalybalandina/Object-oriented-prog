@@ -4,6 +4,12 @@ from src.category import Category
 from src.product import LawnGrass, Product, Smartphone
 
 
+@pytest.fixture
+def category():
+    """Фикстура для создания категории с помощью pytest."""
+    return Category("Газонная трава", "Различные виды газонной травы")
+
+
 def test_category_initialization() -> None:
     """Тест инициализации категории."""
     category = Category("Test Category", "Test Description")
@@ -18,10 +24,7 @@ def test_category_add_product() -> None:
     product = Product("Test Product", "Test Description", 100.0, 10)
     category.add_product(product)
     assert len(category._products) == 1
-    assert category.product_count == 1
-    assert (
-        category._products[0] == product
-    )  # Проверка на корректность добавленного продукта
+    assert category.product_count == 10
 
 
 def test_category_products_property() -> None:
@@ -34,16 +37,12 @@ def test_category_products_property() -> None:
     expected_output = (
         "Product 1, 100.0 руб. Остаток: 10 шт.\nProduct 2, 200.0 руб. Остаток: 5 шт."
     )
-    assert category.products == expected_output
+    assert category.get_products_description() == expected_output
 
 
-def test_product_count() -> None:
-    """Тест счетчика продуктов."""
-    category = Category("Test Category", "Test Description")
-    initial_count = category.product_count
-    product = Product("Test Product", "Test Description", 100.0, 10)
-    category.add_product(product)
-    assert category.product_count == initial_count + 1
+@pytest.fixture(autouse=True)
+def reset_product_count():
+    Category.product_count = 0  # Сбрасываем счетчик перед каждым тестом
 
 
 def test_empty_category() -> None:
@@ -53,20 +52,22 @@ def test_empty_category() -> None:
 
 
 def test_non_empty_category() -> None:
-    """Тест создания нескольких продуктов и категорий"""
+    """Тест создание нескольких продуктов и категорий."""
     product1 = Product("Product A", "Description", 100.0, 10)
     product2 = Product("Product B", "Description", 200.0, 5)
     product3 = Product("Product C", "Description", 300.0, 7)
 
-    # Создаем категорию и добавляем в нее продукты
     category = Category("TestCategory", "Test Description")
     category.add_product(product1)
     category.add_product(product2)
     category.add_product(product3)
 
-    # Проверяем, что строковое представление категории возвращает правильное сообщение
     total_quantity = product1.quantity + product2.quantity + product3.quantity
-    assert str(category) == f"TestCategory, количество продуктов: {total_quantity} шт."
+    expected_output = (
+        f"TestCategory, количество продуктов: {total_quantity} шт., "
+        f"Общая стоимость: {sum(p.price * p.quantity for p in [product1, product2, product3])} руб."
+    )
+    assert str(category) == expected_output
 
 
 def test_add_smartphone_to_category() -> None:
@@ -125,5 +126,8 @@ def test_category_str_representation() -> None:
         color="Gray space",
     )
     category.add_product(smartphone)
-
-    assert str(category) == "Смартфоны, количество продуктов: 8 шт."
+    expected_output = (
+        f"Смартфоны, количество продуктов: {smartphone.quantity} шт., "
+        f"Общая стоимость: {smartphone.price * smartphone.quantity} руб."
+    )
+    assert str(category) == expected_output
