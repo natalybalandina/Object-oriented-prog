@@ -1,5 +1,6 @@
 from src.base_product import BaseProduct
 from src.class_mixin import LoggingMixin
+from src.zero_quantity_error import ZeroQuantityError
 
 
 class Product(LoggingMixin, BaseProduct):
@@ -22,6 +23,11 @@ class Product(LoggingMixin, BaseProduct):
             raise ValueError("Цена товара не может быть отрицательной")
         if quantity < 0:
             raise ValueError("Количество товара не может быть отрицательным")
+        if quantity == 0:
+            raise ZeroQuantityError(
+                "Товар с нулевым количеством не может быть добавлен."
+            )
+
         super().__init__(
             name=name, description=description, price=price, quantity=quantity
         )

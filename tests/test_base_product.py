@@ -1,6 +1,6 @@
-import pytest
-
 from typing import cast
+
+import pytest
 
 from src.base_product import BaseProduct
 

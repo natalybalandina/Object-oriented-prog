@@ -1,5 +1,7 @@
 from typing import List, Optional
+
 from src.product import Product
+from src.zero_quantity_error import ZeroQuantityError
 
 
 class Category:
@@ -18,6 +20,7 @@ class Category:
         :param description: Описание категории.
         :param products: Список продуктов в категории.
         """
+        super().__init__()
         self.name = name
         self.description = description
         self._products: List[Product] = products if products is not None else []
@@ -26,20 +29,41 @@ class Category:
             self._products
         )  # Увеличиваем счетчик на количество продуктов
 
+    def middle_price(self) -> float:
+        """
+        Метод для подсчета среднего ценника всех товаров в категории.
+        :return: Средний ценник товаров в категории. Если товаров нет, возвращает 0.
+        """
+        if not self._products:  # Если список продуктов пустой
+            return 0.0
+        try:
+            total_price = sum(product.price for product in self._products)
+            average_price = total_price / len(self._products)
+            return round(average_price, 2)
+        except ZeroDivisionError:
+            return 0
+
     def add_product(self, product: "Product") -> None:
         """
         Метод для добавления продукта в категорию.
-
         :param product: Объект класса Product.
+        :raises ZeroQuantityError: Если количество товара равно нулю.
         """
-        if not isinstance(product, Product):
-            raise TypeError(
-                "Можно добавлять только объекты класса Product или его наследников."
-            )
-        self._products.append(product)
-        Category.product_count += (
-            product.quantity
-        )  # Увеличиваем на количество добавляемого продукта
+        try:
+            if not isinstance(product, Product):
+                raise TypeError(
+                    "Можно добавлять только объекты класса Product или его наследников."
+                )
+            if product.quantity == 0:
+                raise ZeroQuantityError()
+
+            self._products.append(product)
+            Category.product_count += 1
+            print(f"Товар '{product.name}' успешно добавлен.")
+        except ZeroQuantityError as e:
+            print(f"Ошибка: {e}")
+        finally:
+            print("Обработка добавления товара завершена.")
 
     @property
     def products(self) -> List[Product]:

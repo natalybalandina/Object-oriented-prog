@@ -1,6 +1,6 @@
-import pytest
-
 from typing import Any
+
+import pytest
 
 from src.class_mixin import LoggingMixin
 
